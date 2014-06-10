@@ -1,5 +1,6 @@
 require 'rubygems'
 require 'mongo'
+source 'https://rubygems.org'
 source 'http://gemcutter.org'
 
 gem 'rails', '3.2.18'
@@ -7,8 +8,10 @@ gem "mongo_mapper"
 gem 'oj'
 
 group :development, :test do
-	gem 'rspec-rails', '~>3.0.0.beta'
+  gem "rspec-rails", :github => "rspec/rspec-rails"
 	gem 'spork-rails', '~>4.0.0'
+  gem 'factory_girl_rails', '~>4.0'
+  gem 'database_cleaner'
 end
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'

@@ -1,43 +1,66 @@
 require 'spec_helper'
 
 describe Command, :type => :model do
-	before :each do
-	   @command = Command.new(:user_id => "user_id",
-						:what => "what",
-						:kind => "kind",
-						:bundVersion => "bundleVersion",
-						:description => "description",
-						:bindingUsed => true,
-						:time => 1)
-	end
 
-	describe "The command" do
-		it "should have the correct user id" do
-			@command.user_id.should_be == "user_id"
-		end
-		
-		it "should have the correct what" do
-			@command.what.should_be == "what"
-		end
-	
-		it "should have the correct kind" do
-			@command.kind.should_be == "kind"
-		end
-		
-		it "should have the correct bundleVersion" do
-			@command.bundleVersion.should_be == "bundleVersion"
-		end
+	context 'Command should save and be valid' do
+    before { @command = FactoryGirl.build(:command) }
 
-		it "should have the correct description" do
-			@command.description.should_be == "description"
-		end
+    it { expect(@command).to be_valid }
+    specify {
+      expect(@command.save).to eq(true)
+      saved_command = Command.find(@command.id)
+      expect(saved_command).to eq(@command)
+    }
+  end
 
-		it "should have the correct bindingUsed" do
-			@command.bindingUsed.should_be true
-		end
-		
-		it "should have the correct time" do
-			@command.time.should_be 1
-		end	
-	end	
+  context 'Command should not be valid and not save' do
+    before :each do
+      @command = FactoryGirl.build(:command)
+    end
+    context 'when user_id is missing' do
+      before { @command.user_id = ''}
+      it{ expect(@command.valid?).to eq(false)}
+      specify{expect(@command.save).to eq(false)}
+    end
+
+    context 'when what is missing' do
+      before {@command.what = ''}
+      it{ expect(@command.valid?).to eq(false)}
+      specify{expect(@command.save).to eq(false)}
+    end
+
+    context 'when kind is missing' do
+      before {@command.kind = ''}
+      it{ expect(@command.valid?).to eq(false)}
+      specify{expect(@command.save).to eq(false)}
+    end
+
+    context 'when bundleVersion is missing' do
+      before {@command.bundleVersion = ''}
+      it{ expect(@command.valid?).to eq(false)}
+      specify{expect(@command.save).to eq(false)}
+    end
+    context 'when description is missing' do
+      before {@command.description = ''}
+      it{ expect(@command.valid?).to eq(false)}
+      specify{expect(@command.save).to eq(false)}
+    end
+    context 'when bindingUsed is missing' do
+      before {@command.bindingUsed = nil}
+      it{ expect(@command.valid?).to eq(false)}
+      specify{expect(@command.save).to eq(false)}
+    end
+
+    context 'when time is missing' do
+      before {@command.time = nil}
+      it{ expect(@command.valid?).to eq(false)}
+      specify{expect(@command.save).to eq(false)}
+    end
+
+    context 'when time is not a number' do
+      before {@command.time = 'abcde'}
+      it{ expect(@command.valid?).to eq(false)}
+      specify{expect(@command.save).to eq(false)}
+    end
+  end
 end
