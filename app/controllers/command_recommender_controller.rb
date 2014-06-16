@@ -6,18 +6,21 @@ class CommandRecommenderController < ApplicationController
 
 	def upload_data
 		saved = save_data(params[:user_id],params[:commands])
+    @command_errors = nil
     if saved
-      unless @user = User.find(params[:user_id])
+      unless @user = User.find_by_user_id(params[:user_id])
+
         @user = User.new({:user_id => params[:user_id], :last_upload_date => Time.now.getutc})
       else
         @user.last_upload_date = Time.now.getutc
       end
     end
+
 		respond_to do |format|
 			if saved && @user.save
 				format.json {render :json => params[:commands]}
 			else
-				format.json {render json: "Something wrong", status: 422}
+				format.json {render json: {:user_errors => @user.errors, :command_errors => @command_errors}, status: 422}
 			end	
 		end
 	end
@@ -32,10 +35,11 @@ class CommandRecommenderController < ApplicationController
 										:bundleVersion => command[:bundleVersion],
 										:description => command[:description],
 										:bindingUsed => command[:bindingUsed],
-										:time => command[:time])
+										:time => command[:when])
 						
 				if not new_command.save
 					saved = false
+          @command_errors << new_command.errors
 				end
 										
 			}
