@@ -14,7 +14,6 @@ class Command
   validates_presence_of :kind
   validates_presence_of :bundleVersion
   validates_presence_of :description
-  validates_presence_of :bindingUsed
   validates_presence_of :time
   validates_numericality_of :time
 end
