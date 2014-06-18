@@ -32,6 +32,7 @@ class CommandRecommenderController < ApplicationController
 										:bundleVersion => command[:bundleVersion],
 										:description => command[:description],
 										:bindingUsed => command[:bindingUsed],
+                    :bundleId => command[:bundleId],
 										:time => command[:when])
 						
 				if not new_command.save

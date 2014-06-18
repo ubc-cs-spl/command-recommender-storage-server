@@ -5,6 +5,7 @@ class Command
   key :what, String
   key :kind, String
   key :bundleVersion, String
+  key :bundleId, String
   key :description, String
   key :bindingUsed, Boolean
   key :time, Integer
@@ -13,6 +14,7 @@ class Command
   validates_presence_of :what
   validates_presence_of :kind
   validates_presence_of :bundleVersion
+  validates_presence_of :bundleId
   validates_presence_of :description
   validates_presence_of :time
   validates_numericality_of :time
