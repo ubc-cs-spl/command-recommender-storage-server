@@ -1,21 +1,13 @@
 class Command
   include MongoMapper::Document
 
-  key :user_id, String
-  key :what, String
-  key :kind, String
-  key :bundleVersion, String
-  key :bundleId, String
-  key :description, String
+  key :user_id, String, :required => true
+  key :what, String, :required => true
+  key :kind, String, :required => true
+  key :bundleVersion, String, :required => true
+  key :bundleId, String, :required => true
+  key :description, String, :required => true
   key :bindingUsed, Boolean
-  key :time, Integer
+  key :time, Integer, :required => true, :numeric => true
 
-  validates_presence_of :user_id
-  validates_presence_of :what
-  validates_presence_of :kind
-  validates_presence_of :bundleVersion
-  validates_presence_of :bundleId
-  validates_presence_of :description
-  validates_presence_of :time
-  validates_numericality_of :time
 end

@@ -17,7 +17,7 @@ describe User, :type => :model do
     end
 
     context 'Missing User ID' do
-      before{@user.user_id = ""}
+      before{@user.user_id = ''}
       it{expect(@user.valid?).to eq(false)}
       specify{expect(@user.save).to eq(false)}
     end

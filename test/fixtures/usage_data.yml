@@ -7,6 +7,7 @@ one:
   bundleVersion: MyString
   description: MyString
   bindingUsed: false
+  bundleId: MyString
   time: 
 
 two:
@@ -16,4 +17,5 @@ two:
   bundleVersion: MyString
   description: MyString
   bindingUsed: false
+  bundleId: MyString
   time: 
