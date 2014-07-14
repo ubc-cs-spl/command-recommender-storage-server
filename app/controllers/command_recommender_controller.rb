@@ -5,7 +5,7 @@ class CommandRecommenderController < ApplicationController
   respond_to :json
 
   def upload_data
-    @command_errors = save_data(params[:user_id],params[:commands])
+    @command_errors = save_data(params[:user_id],params[:commands],params[:os])
 
     if @user = User.find_by_user_id(params[:user_id])
       @user.last_upload_date = Time.now.getutc
@@ -26,7 +26,7 @@ class CommandRecommenderController < ApplicationController
   end
 
   private
-  def save_data(user_id, usage_data)
+  def save_data(user_id, usage_data, os)
     @command_errors = Array.new
     usage_data.each{ |command|
       new_command = Command.new(:user_id => user_id,
@@ -42,12 +42,19 @@ class CommandRecommenderController < ApplicationController
         puts new_command.errors.inspect
       end
       if command[:kind] == 'command'
-        if CommandDetail.first(:command_id => command[:name]).nil?
+        unless detail = CommandDetail.first(:command_id => command[:name])
           detail = CommandDetail.new(:command_id => command[:description],
                                      :command_name => command[:name],
                                      :description => command[:info])
-          detail.save
         end
+        unless command[:shortcut].empty?
+          if os == 'cocoa' || os == 'carbon'
+            detail.mac_shortcut = command[:shortcut]
+          else
+            detail.shortcut = command[:shortcut]
+          end
+        end
+        detail.save
       end
     }
     return @command_errors

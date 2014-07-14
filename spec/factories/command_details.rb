@@ -6,5 +6,6 @@ FactoryGirl.define do
     command_id 'MyString'
     description 'MyString'
     shortcut 'MyString'
+    mac_shortcut 'MyString'
   end
 end
