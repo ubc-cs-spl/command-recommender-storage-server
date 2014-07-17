@@ -22,6 +22,12 @@ describe Command, :type => :model do
       specify{expect(@command.save).to eq(true)}
     end
 
+    context 'when bundleVersion is missing' do
+      before {@command.bundleVersion = ''}
+      it{ expect(@command.valid?).to eq(true)}
+      specify{expect(@command.save).to eq(true)}
+    end
+
   end
 
   context 'Command should not be valid and not save' do
@@ -44,12 +50,6 @@ describe Command, :type => :model do
 
     context 'when kind is missing' do
       before {@command.kind = ''}
-      it{ expect(@command.valid?).to eq(false)}
-      specify{expect(@command.save).to eq(false)}
-    end
-
-    context 'when bundleVersion is missing' do
-      before {@command.bundleVersion = ''}
       it{ expect(@command.valid?).to eq(false)}
       specify{expect(@command.save).to eq(false)}
     end
